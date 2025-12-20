@@ -854,12 +854,7 @@ const App = () => {
 
 
 
-
-
-
-
-
-
+ 
       {/* Chapter 1: Macro */}
       <Section
         id="macro"
@@ -869,13 +864,13 @@ const App = () => {
         chapterNumber="01"
       >
         <p>
-          <span className="float-left text-7xl font-serif font-bold text-slate-200 leading-[0.8] mr-4 -ml-2 mb-2">E</span>lections are often described as moments of uncertainty. New leaders, new
+          Elections are often described as moments of uncertainty. New leaders, new
           policies, and shifting expectations all arrive at once. But how does this
           uncertainty actually show up in financial markets?
         </p>
 
         <p>
-          Two simple yet distinct signals can reveal these uncertainties:
+          To explore this question, we start from a simple but important distinction:
           <strong> returns </strong> versus <strong> volatility </strong>. These two
           concepts sound technical, but the intuition behind them is surprisingly
           straightforward.
@@ -914,34 +909,93 @@ const App = () => {
           news.
         </p>
 
-          <iframe src="./p1/nasdaq_election_vs_nonelection.html" width="100%" height="600px"></iframe>
-          <iframe src="./p1/annual_nasdaq_AnnualVol.html" width="100%" height="600px"></iframe>
+        {/* ===== Election vs Non-Election (narrow & centered) ===== */}
+        <div className="flex justify-center my-10">
+          <div className="w-full max-w-3xl aspect-[16/10] rounded-xl overflow-hidden bg-slate-50">
+            <iframe
+              src="./p1/nasdaq_election_vs_nonelection.html"
+              className="w-full h-full border-none"
+              title="Election vs Non-Election NASDAQ"
+            />
+          </div>
+        </div>
 
-
+        {/* ===== Annual Volatility & Returns (paired) ===== */}
         <p>
           Returns tell a more subtle story. Across most cycles, election years are not
           associated with dramatically higher gains. In fact, returns during election
           years often appear slightly lower, though this pattern is far from uniform.
         </p>
-          <iframe src="./p1/annual_nasdaq_AnnualReturn.html" width="100%" height="600px"></iframe>
 
         <p>
-          Zooming in further, monthly patterns reveal how emotions fluctuate within
-          election years. January often stands out with relatively strong performance,
-          possibly reflecting early optimism around new leadership and policy
-          expectations. In contrast, February frequently shows pullbacks, as initial
-          enthusiasm gives way to reassessment and caution.
+          Volatility, however, behaves differently. Election years tend to coincide with
+          sharper price movements and larger fluctuations, suggesting heightened market
+          sensitivity as political uncertainty intensifies.
         </p>
-          <iframe src="./p1/monthly_return.html" width="100%" height="600px"></iframe>
-          <iframe src="./p1/monthly_volatility.html" width="100%" height="600px"></iframe>
 
+        <div className="my-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="aspect-[16/10] rounded-xl overflow-hidden bg-white shadow-md">
+              <iframe
+                src="./p1/annual_nasdaq_AnnualVol.html"
+                className="w-full h-full border-none"
+                title="Annual NASDAQ Volatility"
+              />
+            </div>
+
+            <div className="aspect-[16/10] rounded-xl overflow-hidden bg-white shadow-md">
+              <iframe
+                src="./p1/annual_nasdaq_AnnualReturn.html"
+                className="w-full h-full border-none"
+                title="Annual NASDAQ Return"
+              />
+            </div>
+          </div>
+
+          {/* Caption */}
+          <p className="mt-4 text-center text-sm text-slate-500">
+            Annual NASDAQ volatility and returns, with election years highlighted.
+          </p>
+        </div>
+
+
+        {/* ===== Monthly Patterns ===== */}
+        <p>
+            Zooming in further, monthly patterns reveal how emotions fluctuate within
+            election years. January often stands out with relatively strong performance,
+            possibly reflecting early optimism around new leadership and policy
+            expectations. In contrast, February frequently shows pullbacks, as initial
+            enthusiasm gives way to reassessment and caution.
+          </p>
+
+        <div className="my-12 space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="aspect-[16/10] rounded-xl overflow-hidden bg-slate-50">
+              <iframe
+                src="./p1/monthly_return.html"
+                className="w-full h-full border-none"
+                title="Monthly Returns"
+              />
+            </div>
+
+            <div className="aspect-[16/10] rounded-xl overflow-hidden bg-slate-50">
+              <iframe
+                src="./p1/monthly_volatility.html"
+                className="w-full h-full border-none"
+                title="Monthly Volatility"
+              />
+            </div>
+          </div>
+        </div>
+
+{/* 
         <MethodologyNote title="Statistical Validation">
           To ensure that these differences are not driven by random fluctuations, we
           apply statistical tests comparing election and non-election periods. The
           results confirm that the increase in volatility during election windows is
           statistically significant, supporting the interpretation that elections
           meaningfully affect market stability rather than just returns.
-        </MethodologyNote>
+        </MethodologyNote> */}
 
         <p>
           After looking at the stock market as a whole, we now zoom in on the political side of the story.
@@ -951,115 +1005,321 @@ const App = () => {
 
         <p>
           The key idea is simple: if polls fluctuate wildly, voters (and possibly investors) are facing more
-          uncertainty. The question here is not whether elections matter — we already know they do —
+          uncertainty. The question we ask here is not whether elections matter — we already know they do —
           but whether <em>where</em> that uncertainty happens makes a difference.
         </p>
 
-        <h3 className="mt-10">Swing States: Politically Crucial, Market-Neutral?</h3>
+        <div className="bg-white rounded-3xl p-4 md:p-8 shadow-2xl shadow-slate-200/50 border border-slate-100 space-y-6 my-16">
+          {(() => {
+            const [tab, setTab] = React.useState<'ts' | 'corr'>('ts');
+
+            const charts = {
+              ts: {
+                src: './p1/swing_state_polling_vs_nasdaq_time_series.html',
+                title: 'Swing States: Time Series',
+              },
+              corr: {
+                src: './p1/swing_state_polling_vs_nasdaq_correlation_bars.html',
+                title: 'Swing States: Correlation',
+              },
+            };
+
+            return (
+              <>
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-2xl font-serif text-slate-900">
+                      Swing States: Politically Crucial, Market-Neutral?
+                    </h3>
+                    <p className="text-slate-600 text-sm mt-1">
+                      Swing states are defined by close elections and high political uncertainty.
+                      Intuitively, one might expect these states to exert the strongest influence on
+                      financial markets.
+                    </p>
+                  </div>
+
+                  <div className="flex bg-slate-100 p-1 rounded-xl">
+                    {(['ts', 'corr'] as const).map((t) => (
+                      <button
+                        key={t}
+                        onClick={() => setTab(t)}
+                        className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                          tab === t
+                            ? 'bg-white shadow-sm text-blue-600'
+                            : 'text-slate-400 hover:text-slate-600'
+                        }`}
+                      >
+                        {t === 'ts' ? 'TIME SERIES' : 'CORRELATION'}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="aspect-[16/9] min-h-[420px] w-full overflow-hidden rounded-xl bg-slate-50">
+                  <iframe
+                    key={tab}
+                    src={charts[tab].src}
+                    title={charts[tab].title}
+                    className="w-full h-full border-none rounded-xl"
+                  />
+                </div>
+
+                
+              </>
+            );
+          })()}
+        </div>
 
         <p>
-          We begin with swing states — places where elections are closely contested and outcomes are genuinely
-          uncertain. Intuitively, one might expect these states to matter the most for markets.
-          Surprisingly, the data tells a more nuanced story.
+          Although swing states are electorally pivotal, their relationship with stock market
+          volatility appears weak and highly unstable. The correlation estimates fluctuate around
+          zero and vary substantially across states, offering little evidence of a systematic link
+          between local electoral uncertainty and nationwide market dynamics.
+
+          Rather than acting as a direct driver of market behavior, polling volatility in swing
+          states seems largely decoupled from financial volatility. This suggests that the market
+          does not respond strongly to localized political contests, even when those contests are
+          highly competitive.
+
         </p>
 
-          <iframe
-            src="./p1/swing_state_polling_vs_nasdaq_time_series.html"
-            width="100%"
-            height="600px"
-          ></iframe>
+        <div className="bg-white rounded-3xl p-4 md:p-8 shadow-2xl shadow-slate-200/50 border border-slate-100 space-y-6 my-16">
+          {(() => {
+            const [tab, setTab] = React.useState<'ts' | 'corr'>('ts');
+
+            const charts = {
+              ts: {
+                src: './p1/solid_state_polling_vs_nasdaq_time_series.html',
+                title: 'Solid States: Time Series',
+              },
+              corr: {
+                src: './p1/solid_state_polling_vs_nasdaq_correlation_bars.html',
+                title: 'Solid States: Correlation',
+              },
+            };
+
+            return (
+              <>
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-2xl font-serif text-slate-900">
+                      Solid States: Quiet Politics, Stronger Signals
+                    </h3>
+                    <p className="text-slate-600 text-sm mt-1">
+                      Solid states experience less electoral competition and lower political
+                      uncertainty, yet their polling dynamics may convey broader national signals.
+                    </p>
+                  </div>
+
+                  <div className="flex bg-slate-100 p-1 rounded-xl">
+                    {(['ts', 'corr'] as const).map((t) => (
+                      <button
+                        key={t}
+                        onClick={() => setTab(t)}
+                        className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                          tab === t
+                            ? 'bg-white shadow-sm text-blue-600'
+                            : 'text-slate-400 hover:text-slate-600'
+                        }`}
+                      >
+                        {t === 'ts' ? 'TIME SERIES' : 'CORRELATION'}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="aspect-[16/9] min-h-[420px] w-full overflow-hidden rounded-xl bg-slate-50">
+                  <iframe
+                    key={tab}
+                    src={charts[tab].src}
+                    title={charts[tab].title}
+                    className="w-full h-full border-none rounded-xl"
+                  />
+                </div>
+
+                
+              </>
+            );
+          })()}
+        </div>
 
         <p>
-          While polling volatility in swing states clearly rises and falls over time, it does not consistently
-          move together with stock market volatility. The two series often diverge, suggesting that local
-          political uncertainty does not automatically translate into broader market anxiety.
-        </p>
-
-          <iframe
-            src="./p1/swing_state_polling_vs_nasdaq_correlation_bars.html"
-            width="100%"
-            height="600px"
-          ></iframe>
-
-        <p>
-          This pattern becomes clearer when we look at correlations directly. Most swing states cluster around
-          zero, indicating weak or negligible relationships with stock market volatility.
-          In other words, being politically important does not necessarily mean being economically influential
-          in the eyes of the market.
-        </p>
-
-        <h3 className="mt-10">Solid States: Quiet Politics, Stronger Signals</h3>
-
-        <p>
-          We now turn to solid states — those that consistently lean toward one party and face less electoral
-          uncertainty. At first glance, these states might seem less relevant.
-          Yet, their relationship with the stock market turns out to be more pronounced.
-        </p>
-
-          <iframe
-            src="./p1/solid_state_polling_vs_nasdaq_time_series.html"
-            width="100%"
-            height="600px"
-          ></iframe>
-
-        <p>
-          In contrast to swing states, polling volatility in several solid states appears to move more closely
-          with stock market volatility. Although these states are not electorally competitive, their polling
-          dynamics may better reflect nationwide political sentiment rather than local uncertainty.
-        </p>
-
-          <iframe
-            src="./p1/solid_state_polling_vs_nasdaq_correlation_bars.html"
-            width="100%"
-            height="600px"
-          ></iframe>
-
-        <h3 className="mt-12">A Nationwide View: Where Do Politics and Markets Align?</h3>
-
-        <p>
-          To make these patterns easier to grasp, we project the correlation between
-          polling volatility and stock market volatility onto a map of the United States.
-          Each state is colored according to the strength and direction of its correlation.
-        </p>
-
-        <p>
-          This geographic view helps summarize what we observed earlier.
-          Swing states, despite their political importance, often appear in neutral colors,
-          reflecting correlations close to zero.
-          Meanwhile, several solid states stand out more clearly, showing stronger
-          positive or negative relationships with market volatility.
-        </p>
-
-          <iframe
-            src="./p1/us_map_polling_volatility_2016R.html"
-            width="100%"
-            height="620px"
-          ></iframe>
-
-        <p>
-          The map makes one key insight immediately visible:
-          political uncertainty does not influence financial markets uniformly across the country.
-          Markets appear to react less to localized electoral battles and more to signals that
-          feel nationally representative.
+          Solid states do not exhibit a consistently stronger relationship with stock market
+          volatility either. While a few states show moderate positive or negative correlations,
+          the overall pattern remains fragmented and lacks a clear directional structure.
         </p>
 
         <p>
-          The correlation results reinforce this observation. Solid states show a wider spread of correlations,
-          including several clearly positive values. This suggests that stable political environments may serve
-          as a clearer signal of national expectations, which markets are more willing to react to.
+          Taken together, the state-level evidence suggests that correlations between polling
+          volatility and market volatility are highly heterogeneous and difficult to interpret
+          in isolation. Even in politically stable environments, polling dynamics do not map
+          cleanly onto predictable market responses.
         </p>
 
-        <p className="mt-8 font-semibold">
-          Taken together, these findings highlight an important distinction:
-          markets do not respond most strongly to political battlegrounds, but rather to signals that feel
-          representative of the country as a whole.
+        {/* ================= Nationwide Map ================= */}
+        <div className="bg-white rounded-3xl p-4 md:p-8 shadow-2xl shadow-slate-200/50 border border-slate-100 space-y-6 my-16">
+          {(() => {
+            const years = [1980, 1984, 1988, 1992, 1996, 2000, 2004, 2008, 2012, 2016];
+            const [year, setYear] = React.useState(2016);
+
+            return (
+              <>
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-serif text-slate-900">
+                    A Nationwide View: Where Do Politics and Markets Align?
+                  </h3>
+                  <p className="text-slate-600 text-sm max-w-3xl">
+                    To synthesize the state-level patterns, we project the correlation between
+                    polling volatility and stock market volatility onto a map of the United
+                    States, allowing for a geographic comparison across election cycles.
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap gap-2 bg-slate-100 p-2 rounded-xl w-fit">
+                  {years.map((y) => (
+                    <button
+                      key={y}
+                      onClick={() => setYear(y)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                        year === y
+                          ? 'bg-white shadow-sm text-blue-600'
+                          : 'text-slate-400 hover:text-slate-600'
+                      }`}
+                    >
+                      {y}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="aspect-[16/9] min-h-[440px] w-full overflow-hidden rounded-xl bg-slate-50">
+                  <iframe
+                    key={year}
+                    src={`./p1/us_map_polling_volatility_${year}.html`}
+                    title={`Nationwide map ${year}`}
+                    className="w-full h-full border-none rounded-xl"
+                  />
+                </div>
+              </>
+            );
+          })()}
+        </div>
+
+        {/* ================= Yearly National Dynamics ================= */}
+        <div className="bg-white rounded-3xl p-4 md:p-8 shadow-2xl shadow-slate-200/50 border border-slate-100 space-y-8 my-16">
+          {(() => {
+            const years = [1980, 1984, 1988, 1992, 1996, 2000, 2004, 2008, 2012, 2016];
+            const [year, setYear] = React.useState(2016);
+
+            return (
+              <>
+                {/* ===== Section Header ===== */}
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-serif text-slate-900">
+                    Do Polling–Market Relationships Persist Over Time?
+                  </h3>
+                  <p className="text-slate-600 text-sm">
+                    To assess whether the relationship between polling volatility and market volatility
+                    is stable or episodic, we first examine how their correlation evolves across election
+                    cycles. We then zoom in on individual years to inspect the underlying national dynamics.
+                  </p>
+                </div>
+
+                {/* ===== Year Selector ===== */}
+                <div className="space-y-2 pt-6">
+                  <h4 className="text-lg font-semibold text-slate-800">
+                    National Polling vs. Market Volatility (By Year)
+                  </h4>
+                  <p className="text-slate-600 text-sm">
+                    Selecting an election year reveals the time-series comparison between national
+                    polling volatility and market volatility during that cycle.
+                  </p>
+
+                  <div className="flex flex-wrap gap-2 bg-slate-100 p-2 rounded-xl w-fit">
+                    {years.map((y) => (
+                      <button
+                        key={y}
+                        onClick={() => setYear(y)}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                          year === y
+                            ? "bg-white shadow-sm text-blue-600"
+                            : "text-slate-400 hover:text-slate-600"
+                        }`}
+                      >
+                        {y}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* ===== National Line Plot ===== */}
+                <div className="aspect-[16/9] min-h-[440px] w-full overflow-hidden rounded-xl bg-slate-50">
+                  <iframe
+                    key={year}
+                    src={`./p1/national_vs_market_${year}.html`}
+                    title={`National polling vs market ${year}`}
+                    className="w-full h-full border-none rounded-xl"
+                  />
+                </div>
+
+                {/* ===== Corr over Time ===== */}
+                <div className="space-y-2">
+                  <h4 className="text-lg font-semibold text-slate-800">
+                    Correlation Across Election Cycles
+                  </h4>
+                  <p className="text-slate-600 text-sm">
+                    The figure below plots the correlation between national polling volatility and NASDAQ
+                    volatility across election years, with significance markers indicating statistical
+                    strength.
+                  </p>
+
+                  <div className="aspect-[16/9] min-h-[420px] w-full overflow-hidden rounded-xl bg-slate-50">
+                    <iframe
+                      src="./p1/corr_over_time.html"
+                      title="Correlation over time"
+                      className="w-full h-full border-none rounded-xl"
+                    />
+                  </div>
+                </div>
+              </>
+            );
+          })()}
+        </div>
+
+        <p>
+          Across election years, the geographic distribution varies substantially.
+          While some states exhibit stronger positive or negative correlations in specific
+          cycles, these patterns do not align into a stable spatial structure. This raises
+          a natural follow-up question: are these relationships persistent features of
+          electoral cycles, or do they fluctuate from one election to the next?
+        </p>
+
+
+        <p>
+          To further evaluate whether these relationships are persistent or merely episodic,
+          we turn from geography to time. By tracking the correlation between national polling
+          volatility and market volatility across election cycles, we assess whether electoral
+          uncertainty translates into a stable market signal or fluctuates from one cycle
+          to another.
         </p>
 
         <p>
-          With this political dimension in place, we are now ready to take the next step and ask a more
-          fine-grained question: <strong>do different industries respond to elections in different ways?</strong>
-          The next chapter explores how political cycles interact with sector-level stock behavior.
+          In summary, the geographic and temporal evidence suggests that the relationship
+          between polling volatility and market volatility is highly context-dependent.
+          Correlations vary across both states and election cycles, indicating that electoral
+          uncertainty does not translate into a uniform or persistent market signal.
         </p>
+
+
+        <p>
+          Motivated by this observation, we shift our focus in the next section from electoral
+          outcomes themselves to the channels through which uncertainty may matter most for
+          financial markets. In particular, we examine how election periods affect different
+          industries, exploring whether sector-level responses reveal clearer and more consistent
+          patterns than those observed at the aggregate market level.
+        </p>
+
+
+          
         
       </Section>
 
