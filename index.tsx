@@ -998,16 +998,18 @@ const App = () => {
         </MethodologyNote> */}
 
         <p>
-          After looking at the stock market as a whole, we now zoom in on the political side of the story.
-          Instead of treating an election as a single event, we use <strong>polling data</strong> to track how
-          uncertain the race feels over time — week by week, state by state.
+          After examining the stock market at an aggregate level, attention shifts to the political
+          dimension of the story. Rather than treating an election as a single event, <strong>polling data</strong>
+          are used to track how electoral uncertainty evolves over time — week by week and state by state.
         </p>
 
+
         <p>
-          The key idea is simple: if polls fluctuate wildly, voters (and possibly investors) are facing more
-          uncertainty. The question we ask here is not whether elections matter — we already know they do —
-          but whether <em>where</em> that uncertainty happens makes a difference.
+          The intuition is straightforward: larger fluctuations in polls reflect higher levels of electoral
+          uncertainty faced by voters — and potentially by investors as well. The focus here is not on
+          whether elections matter, but on whether <em>where</em> that uncertainty arises plays a meaningful role.
         </p>
+
 
         <div className="bg-white rounded-3xl p-4 md:p-8 shadow-2xl shadow-slate-200/50 border border-slate-100 space-y-6 my-16">
           {(() => {
@@ -1218,9 +1220,10 @@ const App = () => {
                     Do Polling–Market Relationships Persist Over Time?
                   </h3>
                   <p className="text-slate-600 text-sm">
-                    To assess whether the relationship between polling volatility and market volatility
-                    is stable or episodic, we first examine how their correlation evolves across election
-                    cycles. We then zoom in on individual years to inspect the underlying national dynamics.
+                    Whether the relationship between polling volatility and market volatility is persistent
+                    or merely episodic may be revealed more clearly over time than across space. To explore
+                    this possibility, the correlation is traced across election cycles, before zooming in
+                    on individual years to examine the underlying national dynamics.
                   </p>
                 </div>
 
@@ -1286,36 +1289,40 @@ const App = () => {
         </div>
 
         <p>
-          Across election years, the geographic distribution varies substantially.
-          While some states exhibit stronger positive or negative correlations in specific
-          cycles, these patterns do not align into a stable spatial structure. This raises
-          a natural follow-up question: are these relationships persistent features of
-          electoral cycles, or do they fluctuate from one election to the next?
+          Across election years, the geographic distribution of correlations varies substantially. 
+          While certain states exhibit stronger positive or negative relationships in specific cycles, 
+          these patterns fail to consolidate into a stable spatial structure. The absence of 
+          a consistent geographic footprint raises a natural question: are these relationships 
+          persistent features of electoral cycles, or are they merely episodic phenomena?
         </p>
 
 
         <p>
-          To further evaluate whether these relationships are persistent or merely episodic,
-          we turn from geography to time. By tracking the correlation between national polling
-          volatility and market volatility across election cycles, we assess whether electoral
-          uncertainty translates into a stable market signal or fluctuates from one cycle
-          to another.
+          If persistence does exist, it may be embedded less in geography than in time. 
+          Rather than manifesting as stable state-level patterns, the relationship 
+          between electoral uncertainty and market behavior may reveal itself through 
+          its evolution across election cycles. Shifting attention to the temporal dimension, 
+          the correlation between national polling volatility and market volatility is 
+          tracked across elections to assess whether political uncertainty produces 
+          a recurring market signal or fluctuates from one cycle to the next.
         </p>
 
         <p>
-          In summary, the geographic and temporal evidence suggests that the relationship
-          between polling volatility and market volatility is highly context-dependent.
-          Correlations vary across both states and election cycles, indicating that electoral
-          uncertainty does not translate into a uniform or persistent market signal.
+          The combined geographic and temporal evidence points to a highly context-dependent 
+          relationship. Correlations vary both across states and across election years, 
+          suggesting that electoral uncertainty does not translate into a uniform or persistent 
+          response in aggregate market volatility. Instead, its market relevance appears to be 
+          contingent on the specific political and economic conditions of each cycle.
         </p>
 
 
         <p>
-          Motivated by this observation, we shift our focus in the next section from electoral
-          outcomes themselves to the channels through which uncertainty may matter most for
-          financial markets. In particular, we examine how election periods affect different
-          industries, exploring whether sector-level responses reveal clearer and more consistent
-          patterns than those observed at the aggregate market level.
+          This observation motivates a shift in focus in the following section—from electoral 
+          uncertainty in the aggregate to the channels through which it may matter most for 
+          financial markets. Rather than examining overall market responses, attention turns 
+          to sector-level dynamics, exploring whether industry-specific reactions during 
+          election periods reveal clearer and more consistent patterns than those observed 
+          at the aggregate level.
         </p>
 
 
@@ -2217,7 +2224,7 @@ const App = () => {
       </Section>
 
       {/* Chapter 5: Conclusion */}
-      <Section id="conclusion" title="What the Market Heard" subtitle="Conclusion" chapterNumber="05">
+      <Section id="conclusion" title="The Listening Market" subtitle="Conclusion" chapterNumber="05">
         <p>
           <span className="float-left text-7xl font-serif font-bold text-slate-200 leading-[0.8] mr-4 -ml-2 mb-2">W</span>hen you step back from the charts, a simple picture emerges. Markets don’t react to politics because of party colors alone—they react to shifting expectations about what tomorrow might look like. In quiet times, the market hums. In loud times, it listens harder. And in the rare moments when the story suddenly bends, prices move fast to catch up.
         </p>
