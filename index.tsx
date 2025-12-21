@@ -1003,7 +1003,6 @@ const App = () => {
           are used to track how electoral uncertainty evolves over time — week by week and state by state.
         </p>
 
-
         <p>
           The intuition is straightforward: larger fluctuations in polls reflect higher levels of electoral
           uncertainty faced by voters — and potentially by investors as well. The focus here is not on
@@ -1289,45 +1288,41 @@ const App = () => {
         </div>
 
         <p>
-          Across election years, the geographic distribution of correlations varies substantially. 
-          While certain states exhibit stronger positive or negative relationships in specific cycles, 
-          these patterns fail to consolidate into a stable spatial structure. The absence of 
-          a consistent geographic footprint raises a natural question: are these relationships 
-          persistent features of electoral cycles, or are they merely episodic phenomena?
-        </p>
-
-
-        <p>
-          If persistence does exist, it may be embedded less in geography than in time. 
-          Rather than manifesting as stable state-level patterns, the relationship 
-          between electoral uncertainty and market behavior may reveal itself through 
-          its evolution across election cycles. Shifting attention to the temporal dimension, 
-          the correlation between national polling volatility and market volatility is 
-          tracked across elections to assess whether political uncertainty produces 
-          a recurring market signal or fluctuates from one cycle to the next.
+          Looking across election years, the geographic pattern of correlations changes a lot.
+          Some states show strong positive or negative relationships in certain elections, but
+          these patterns do not repeat consistently over time. At the same time, it looks not
+          depend on whether these states are swing or solid. In other words, no stable
+          geographic map emerges from one cycle to the next. This naturally raises a question:
+          are these relationships long-lasting features of elections, or do they appear only
+          in specific moments?
         </p>
 
         <p>
-          The combined geographic and temporal evidence points to a highly context-dependent 
-          relationship. Correlations vary both across states and across election years, 
-          suggesting that electoral uncertainty does not translate into a uniform or persistent 
-          response in aggregate market volatility. Instead, its market relevance appears to be 
-          contingent on the specific political and economic conditions of each cycle.
+          If any persistence exists, it may be found more in time than in place. Instead of
+          showing up as the same states behaving similarly across elections, the link between
+          electoral uncertainty and market volatility may become visible when viewed across
+          different election cycles. For this reason, attention shifts to how the correlation
+          between national polling volatility and market volatility changes from one election
+          to the next.
         </p>
-
 
         <p>
-          This observation motivates a shift in focus in the following section—from electoral 
-          uncertainty in the aggregate to the channels through which it may matter most for 
-          financial markets. Rather than examining overall market responses, attention turns 
-          to sector-level dynamics, exploring whether industry-specific reactions during 
-          election periods reveal clearer and more consistent patterns than those observed 
-          at the aggregate level.
+          The evidence suggests a highly context-dependent relationship.
+          Correlations differ not only across states but also across election years. This
+          indicates that electoral uncertainty does not generate a single, stable response
+          in overall market volatility. Instead, its impact appears to depend on the specific
+          political and economic environment of each election cycle.
+        </p>
+
+        <p>
+          These findings motivate a change in perspective in the next section. Rather than
+          focusing on the market as a whole, attention turns to how different industries respond
+          during election periods. Sector-level analysis may reveal clearer and more consistent
+          patterns than those visible in aggregate market data.
         </p>
 
 
-          
-        
+ 
       </Section>
 
 
