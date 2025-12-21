@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US Election Cycle Key Events - Fully Corrected</title>
+    <style>
+        /* Modern Design with Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        /* 1. Reset and Container Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            min-height: 100vh;
+        }
+
+        .carousel-container {
+            max-width: 100%;
+            height: 650px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: none;
+            background: white;
+        }
+
+        /* 2. Carousel Content Wrapper (The moving track) */
+        .carousel-wrapper {
+            display: flex;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+        }
+
+        /* 3. Single Event Card Styles */
+        .carousel-slide {
+            min-width: 100%; 
+            width: 100%;
+            padding: 40px 45px 100px;
+            box-sizing: border-box;
+            background: white;
+            flex-shrink: 0; 
+            display: grid;
+            grid-template-rows: auto 1fr auto; 
+            gap: 20px;
+        }
+
+        /* Democratic Party Styling */
+        .carousel-slide[data-party="Democratic"] {
+            background: linear-gradient(to bottom, #ebf4ff 0%, #ffffff 35%);
+        }
+
+        .carousel-slide[data-party="Democratic"] .card-header {
+            border-bottom: 3px solid #2563eb;
+        }
+
+        .carousel-slide[data-party="Democratic"] .president-portrait {
+            border-color: #2563eb;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Republican Party Styling */
+        .carousel-slide[data-party="Republican"] {
+            background: linear-gradient(to bottom, #ffebeb 0%, #ffffff 35%);
+        }
+
+        .carousel-slide[data-party="Republican"] .card-header {
+            border-bottom: 3px solid #dc2626;
+        }
+
+        .carousel-slide[data-party="Republican"] .president-portrait {
+            border-color: #dc2626;
+            box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+        }
+        
+        /* Card Header */
+        .card-header {
+            display: flex;
+            align-items: center;
+            padding-bottom: 20px;
+        }
+
+        .president-portrait {
+            width: 110px;
+            height: 110px;
+            overflow: hidden;
+            border-radius: 50%;
+            margin-right: 25px;
+            flex-shrink: 0;
+            border: 5px solid;
+            position: relative;
+        }
+
+        .president-portrait img {
+            width: 160%;
+            height: 160%;
+            object-fit: cover;
+            object-position: center 200%;
+            position: absolute;
+            top: -10%;
+            left: -30%;
+        }
+        
+        /* Adjust vertical position for non-Clinton presidents */
+        .carousel-slide[data-president="Joe Biden"] .president-portrait img,
+        .carousel-slide[data-president="Donald Trump"] .president-portrait img,
+        .carousel-slide[data-president="Barack Obama"] .president-portrait img,
+        .carousel-slide[data-president="George W. Bush"] .president-portrait img {
+            object-position: center 35%;
+        }
+
+        .header-text {
+            flex: 1;
+        }
+
+        .header-text h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.75em;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .carousel-slide[data-party="Democratic"] .header-text h3 {
+            color: #1e40af;
+        }
+
+        .carousel-slide[data-party="Republican"] .header-text h3 {
+            color: #991b1b;
+        }
+
+        .header-text p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        /* Card Body */
+        .card-body {
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .card-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .card-body::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 3px;
+        }
+
+        .card-body::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        .card-body::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .event-type {
+            display: inline-block;
+            font-size: 0.8em;
+            font-weight: 600;
+            color: #059669;
+            background: #d1fae5;
+            padding: 4px 12px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        
+        .event-name {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 15px;
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+        }
+
+        .event-detail {
+            color: #4b5563;
+            line-height: 1.7;
+            margin-bottom: 12px;
+            font-size: 0.95em;
+        }
+        
+        .event-detail strong {
+            color: #1f2937;
+            font-weight: 600;
+        }
+
+        /* Card Footer */
+        .card-footer {
+            text-align: right;
+            padding-top: 10px;
+        }
+
+        .card-footer a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9em;
+            padding: 12px 24px;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .carousel-slide[data-party="Democratic"] .card-footer a {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+
+        .carousel-slide[data-party="Democratic"] .card-footer a:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .carousel-slide[data-party="Republican"] .card-footer a {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .carousel-slide[data-party="Republican"] .card-footer a:hover {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .card-footer a::after {
+            content: '→';
+            font-size: 1.2em;
+        }
+
+        .carousel-nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.7);
+            color: #1f2937;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 1.2em;
+            line-height: 1;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-nav-arrow:hover {
+            background: white;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .carousel-nav-arrow:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+        
+        .carousel-nav-arrow:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5);
+        }
+
+        #prevBtn {
+            left: 10px;
+        }
+
+        #nextBtn {
+            right: 10px;
+        }
+
+        .carousel-nav-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background: #cbd5e1;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dot:hover {
+            background: #94a3b8;
+            transform: scale(1.2);
+        }
+
+        .dot.active {
+            background: #6366f1;
+            width: 28px;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+<div class="carousel-container">
+    <div class="carousel-wrapper" id="carouselWrapper">
+        
+        <!-- Event 1: 1992 - Clinton - Gennifer Flowers -->
+        <div class="carousel-slide" data-president="Bill Clinton" data-party="Democratic">
+            <div class="card-header">
+                <div class="president-portrait">
+                    <img src="../portraits/Bill Clinton.png" alt="President Bill Clinton">
+                </div>
+                <div class="header-text">
+                    <p>Winner of the 1992 Election</p>
+                    <h3>Bill Clinton</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="event-type">Breaking Scandal</p>
+                <div class="event-name">Gennifer Flowers Affair</div>
+                <p class="event-detail"><strong>Date:</strong> January 27, 1992</p>
+                <p class="event-detail">During the 1992 presidential primaries, Gennifer Flowers publicly claimed she had had a long-term affair with Bill Clinton. This personal scandal created a major crisis early in Clinton's campaign, which he and his wife Hillary successfully addressed.</p>
+            </div>
+            <div class="card-footer">
+                <a href="https://en.wikipedia.org/wiki/Gennifer_Flowers" target="_blank">Read Full Wikipedia Article</a>
+            </div>
+        </div>
+
+        <!-- Event 2: 1996 - Clinton - FBI files -->
+        <div class="carousel-slide" data-president="Bill Clinton" data-party="Democratic">
+            <div class="card-header">
+                <div class="president-portrait">
+                    <img src="../portraits/Bill Clinton.png" alt="President Bill Clinton">
+                </div>
+                <div class="header-text">
+                    <p>Winner of the 1996 Election</p>
+                    <h3>Bill Clinton</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="event-type">Breaking Scandal</p>
+                <div class="event-name">White House FBI files controversy</div>
+                <p class="event-detail"><strong>Date:</strong> June 18, 1996</p>
+                <p class="event-detail">The Clinton administration was accused of improperly obtaining and using FBI background files on hundreds of Republicans. This "Filegate" scandal cast a shadow on the integrity of the Clinton administration during the 1996 election.</p>
+            </div>
+            <div class="card-footer">
+                <a href="https://en.wikipedia.org/wiki/White_House_FBI_files_controversy" target="_blank">Read Full Wikipedia Article</a>
+            </div>
+        </div>
+
+        <!-- Event 3: 2000 - Bush - DUI -->
+        <div class="carousel-slide" data-president="George W. Bush" data-party="Republican">
+            <div class="card-header">
+                <div class="president-portrait">
+                    <img src="../portraits/George W. Bush.png" alt="President George W. Bush">
+                </div>
+                <div class="header-text">
+                    <p>Winner of the 2000 Election</p>
+                    <h3>George W. Bush</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="event-type">Breaking Scandal</p>
+                <div class="event-name">Exposure of George W. Bush's 1976 DUI Arrest Record</div>
+                <p class="event-detail"><strong>Date:</strong> November 2, 2000</p>
+                <p class="event-detail">A DUI arrest record from Republican candidate George W. Bush's youth was exposed just days before the presidential election. Although decades old, the incident caused late-stage controversy in the tight race.</p>
+            </div>
+            <div class="card-footer">
+                <a href="https://en.wikipedia.org/wiki/Early_life_of_George_W._Bush#DUI_arrest_and_controversies" target="_blank">Read Full Wikipedia Article</a>
+            </div>
+        </div>
+
+        <!-- Event 4: 2004 - Bush - Swift Boat -->
+        <div class="carousel-slide" data-president="George W. Bush" data-party="Republican">
+            <div class="card-header">
+                <div class="president-portrait">
+                    <img src="../portraits/George W. Bush.png" alt="President George W. Bush">
+                </div>
+                <div class="header-text">
+                    <p>Winner of the 2004 Election</p>
+                    <h3>George W. Bush</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="event-type">Breaking Scandal</p>
+                <div class="event-name">John Kerry military service controversy ("Swift Boat" Attacks)</div>
+                <p class="event-detail"><strong>Date:</strong> July, 2004</p>
+                <p class="event-detail">An organization called "Swift Boat Veterans for Truth" launched an advertising campaign questioning Democratic candidate John Kerry's Vietnam War service record. The controversy effectively derailed the campaign focus and damaged his public image.</p>
+            </div>
+            <div class="card-footer">
+                <a href="https://en.wikipedia.org/wiki/John_Kerry_military_service_controversy" target="_blank">Read Full Wikipedia Article</a>
+            </div>
+        </div>
+
+        <!-- Event 5: 2008 - Obama - Lehman Brothers -->
+        <div class="carousel-slide" data-president="Barack Obama" data-party="Democratic">
+            <div class="card-header">
+                <div class="president-portrait">
+                    <img src="../portraits/Barack Obama.png" alt="President Barack Obama">
+                </div>
+                <div class="header-text">
+                    <p>Winner of the 2008 Election</p>
+                    <h3>Barack Obama</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="event-type">Large Societal Disaster</p>
+                <div class="event-name">Bankruptcy of Lehman Brothers during 2008 financial crisis</div>
+                <p class="event-detail"><strong>Date:</strong> September 15, 2008</p>
+                <p class="event-detail">The bankruptcy of Lehman Brothers signaled the peak of the global financial crisis, making economic turmoil the central issue of the 2008 presidential race. The crisis profoundly affected voter sentiment and the political landscape.</p>
+            </div>
+            <div class="card-footer">
+                <a href="https://en.wikipedia.org/wiki/Bankruptcy_of_Lehman_Brothers" target="_blank">Read Full Wikipedia Article</a>
+            </div>
+        </div>
+
+        <!-- Event 6: 2012 - Obama - Hurricane Sandy -->
+        <div class="carousel-slide" data-president="Barack Obama" data-party="Democratic">
+            <div class="card-header">
+                <div class="president-portrait">
+                    <img src="../portraits/Barack Obama.png" alt="President Barack Obama">
+                </div>
+                <div class="header-text">
+                    <p>Winner of the 2012 Election</p>
+                    <h3>Barack Obama</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="event-type">Large Natural Disaster</p>
+                <div class="event-name">Hurricane Sandy</div>
+                <p class="event-detail"><strong>Date:</strong> October 29, 2012</p>
+                <p class="event-detail">Hurricane Sandy caused massive devastation and loss of life across the US East Coast. President Obama's response to the disaster and his visible cooperation with Republican Governor Chris Christie are thought to have positively influenced his standing in the election.</p>
+            </div>
+            <div class="card-footer">
+                <a href="https://en.wikipedia.org/wiki/Hurricane_Sandy" target="_blank">Read Full Wikipedia Article</a>
+            </div>
+        </div>
+
+        <!-- Event 7: 2016 - Trump - Comey Letter -->
+        <div class="carousel-slide" data-president="Donald Trump" data-party="Republican">
+            <div class="card-header">
+                <div class="president-portrait">
+                    <img src="../portraits/Donald Trump.png" alt="President Donald Trump">
+                </div>
+                <div class="header-text">
+                    <p>Winner of the 2016 Election</p>
+                    <h3>Donald Trump</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="event-type">Breaking Scandal</p>
+                <div class="event-name">Comey Letter: Hillary Clinton email controversy</div>
+                <p class="event-detail"><strong>Date:</strong> October 28, 2016</p>
+                <p class="event-detail">Just days before the general election, FBI Director James Comey informed Congress of renewed investigation into Hillary Clinton's use of a private email server. This event is widely believed to have significantly impacted the outcome of the final days of the campaign.</p>
+            </div>
+            <div class="card-footer">
+                <a href="https://en.wikipedia.org/wiki/Hillary_Clinton_email_controversy" target="_blank">Read Full Wikipedia Article</a>
+            </div>
+        </div>
+
+        <!-- Event 8: 2020 - Biden - COVID-19 -->
+        <div class="carousel-slide" data-president="Joe Biden" data-party="Democratic">
+            <div class="card-header">
+                <div class="president-portrait">
+                    <img src="../portraits/Joe Biden.png" alt="President Joe Biden">
+                </div>
+                <div class="header-text">
+                    <p>Winner of the 2020 Election</p>
+                    <h3>Joe Biden</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="event-type">Large Societal Disaster</p>
+                <div class="event-name">First announcement of public health emergency during COVID-19</div>
+                <p class="event-detail"><strong>Date:</strong> January 31, 2020</p>
+                <p class="event-detail">The U.S. Health and Human Services Department declared a public health emergency, marking the beginning of the COVID-19 pandemic's impact on American society, economy, and politics. This catastrophic event became a central issue of the election cycle.</p>
+            </div>
+            <div class="card-footer">
+                <a href="https://en.wikipedia.org/wiki/COVID-19_pandemic_in_the_United_States" target="_blank">Read Full Wikipedia Article</a>
+            </div>
+        </div>
+
+        <!-- Event 9: 2024 - Trump - Assassination attempt -->
+        <div class="carousel-slide" data-president="Donald Trump" data-party="Republican">
+            <div class="card-header">
+                <div class="president-portrait">
+                    <img src="../portraits/Donald Trump.png" alt="President Donald Trump">
+                </div>
+                <div class="header-text">
+                    <p>Winner of the 2024 Election</p>
+                    <h3>Donald Trump</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="event-type">External Shock Event</p>
+                <div class="event-name">Attempted assassination of Donald Trump in Pennsylvania</div>
+                <p class="event-detail"><strong>Date:</strong> July 13, 2024</p>
+                <p class="event-detail">A former president was the target of an attempted assassination at a campaign rally just months before the general election. The event instantly dominated the national conversation and had a profound impact on the political narrative and public sentiment.</p>
+            </div>
+            <div class="card-footer">
+                <a href="https://en.wikipedia.org/wiki/Attempted_assassination_of_Donald_Trump_in_Pennsylvania" target="_blank">Read Full Wikipedia Article</a>
+            </div>
+        </div>
+
+        </div>
+
+    <button class="carousel-nav-arrow" id="prevBtn">❮</button>
+    <button class="carousel-nav-arrow" id="nextBtn">❯</button>
+
+    <div class="carousel-nav-dots" id="dotContainer">
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const wrapper = document.getElementById('carouselWrapper');
+        const slides = wrapper.querySelectorAll('.carousel-slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const dotContainer = document.getElementById('dotContainer');
+        const totalSlides = slides.length;
+        let currentIndex = 0;
+        const autoPlayInterval = 6000;
+        let intervalId;
+
+        /**
+         * Core function: Shifts the carousel to the specified index
+         * @param {number} index The target slide index
+         */
+        function goToSlide(index) {
+            // Handle wrapping (looping)
+            if (index < 0) {
+                index = totalSlides - 1; 
+            } else if (index >= totalSlides) {
+                index = 0;
+            }
+            
+            currentIndex = index;
+            
+            // FIXED: Move wrapper by full container width per slide
+            // Since each slide is 100% of container width, we move by index * 100%
+            const offset = -currentIndex * 100; 
+            wrapper.style.transform = `translateX(${offset}%)`;
+
+            // Update navigation dot state
+            updateDots();
+        }
+
+        /**
+         * Updates the active state of navigation dots and resets auto-play
+         */
+        function updateDots() {
+            document.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentIndex);
+            });
+            startAutoPlay();
+        }
+
+        /**
+         * Starts the auto-play timer
+         */
+        function startAutoPlay() {
+            clearInterval(intervalId); 
+            intervalId = setInterval(() => {
+                goToSlide(currentIndex + 1);
+            }, autoPlayInterval);
+        }
+
+        /**
+         * Stops the auto-play timer
+         */
+        function stopAutoPlay() {
+            clearInterval(intervalId);
+        }
+
+        /**
+         * Initializes the carousel
+         */
+        function initializeCarousel() {
+            // 1. Generate Navigation Dots
+            slides.forEach((slide, i) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (i === 0) dot.classList.add('active');
+                dot.setAttribute('data-slide-to', i);
+                dot.addEventListener('click', () => {
+                    stopAutoPlay();
+                    goToSlide(i);
+                });
+                dotContainer.appendChild(dot);
+            });
+
+            // 2. Bind Arrow Events
+            prevBtn.addEventListener('click', () => {
+                stopAutoPlay();
+                goToSlide(currentIndex - 1);
+            });
+
+            nextBtn.addEventListener('click', () => {
+                stopAutoPlay();
+                goToSlide(currentIndex + 1);
+            });
+
+            // 3. Initial Display
+            goToSlide(0);
+
+            // 4. Pause on Hover
+            const container = document.querySelector('.carousel-container');
+            container.addEventListener('mouseenter', stopAutoPlay);
+            container.addEventListener('mouseleave', startAutoPlay);
+            
+            // 5. Keyboard Navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    stopAutoPlay();
+                    goToSlide(currentIndex - 1);
+                } else if (e.key === 'ArrowRight') {
+                    stopAutoPlay();
+                    goToSlide(currentIndex + 1);
+                }
+            });
+        }
+
+        // Run initialization function
+        initializeCarousel();
+    });
+</script>
+
+</body>
+</html>
